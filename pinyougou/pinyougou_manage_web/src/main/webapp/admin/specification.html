@@ -41,8 +41,8 @@
                                 </div>
                             </div>
                             <div class="box-tools pull-right">
-                                <div class="has-feedback">
-							                    规格名称：<input v-model="searchEntity.specName" >
+                                <div class="has-feedback" >
+							                    规格名称：<input v-model="searchEntity.specName" @Keydown.enter="searchList(1)">
 									<button @click="searchList(1)" class="btn btn-default" >查询</button>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
 			                      <thead>
 			                          <tr>
 			                              <th class="" style="padding-right:0px">
-			                                  <input id="selall" type="checkbox" class="icheckbox_square-blue">
+			                                  <input @click="checkAll" v-model="selectedFlag" id="selall" type="checkbox" class="icheckbox_square-blue">
 			                              </th> 
 										  <th class="sorting_asc">规格ID</th>
 									      <th class="sorting">规格名称</th>									     												

@@ -45,8 +45,7 @@
             <artifactId>netty-all</artifactId>
         </dependency>
 
-        <!-- json
-的解析 -->
+        <!-- json的解析 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -87,6 +86,14 @@
             <artifactId>spring-jms</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>             <!-- tomcat插件 -->

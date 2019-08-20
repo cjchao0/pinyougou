@@ -14,9 +14,33 @@ var app = new Vue({
         //选择的id数组
         ids: [],
         //定一个空的搜索条件对象
-        searchEntity:{}
+        searchEntity:{},
+        // 全选
+        selectedFlag:false
     },
     methods: {
+        // 实现全选
+        checkAll:function(){
+            // 清空上一次的操作，所以要重新初始化
+            /*this.ids = [];
+            this.entityList.forEach(function(entity,index){
+                entity.check = !entity.check;
+                // 如果你已经选择，
+                if(entity.check){
+                    // 就把选择的ID放入数组中。
+                    app.ids.push(entity.id);
+                }
+            });*/
+            if(!this.selectedFlag){
+                //选中
+                for (let i = 0; i < this.entityList.length; i++) {
+                    const entity = this.entityList[i];
+                    this.ids[i] = entity.id;
+                }
+            } else {
+                this.ids = [];
+            }
+        },
         //删除规格选项
         deleteTableRow: function(index){
             //删除的元素索引号，要删除的元素个数
@@ -32,6 +56,8 @@ var app = new Vue({
                 //this表示axios；所以使用app设置entityList的数据
                 app.entityList = response.data.list;
                 app.total = response.data.total;
+                app.ids = [];
+                app.selectedFlag = false;
             });
         },
         //保存数据
@@ -45,7 +71,7 @@ var app = new Vue({
             axios.post("../specification/"+method+".do", this.entity).then(function (response) {
                 if (response.data.success) {
                     //刷新列表
-                    app.searchList(1);
+                    app.searchList(app.pageNum);
                 } else {
                     alert(response.data.message);
                 }
@@ -72,6 +98,16 @@ var app = new Vue({
                         alert(response.data.message);
                     }
                 });
+            }
+        }
+    },
+    //监听数据属性的变化
+    watch :{
+        ids: function (newValue, oldValue) {
+            if (this.ids.length != this.entityList.length) {
+                this.selectedFlag = false;
+            } else{
+                this.selectedFlag = true;
             }
         }
     },

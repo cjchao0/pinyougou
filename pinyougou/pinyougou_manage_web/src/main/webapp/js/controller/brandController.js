@@ -14,27 +14,15 @@ var app = new Vue({
         //选择的id数组
         ids: [],
         //搜索数据
-        searchEntity: {}
+        searchEntity: {},
+        // 全选
+        selectedFlag:false
     },
     methods: {
-        /*checkAll: function () {
-            if (this.ids.length < 1) {
-                this.entityList.forEach(function (entity, index) {
-                    app.ids[index] = entity.id;
-                });
-                // app.ids = true;
-                /!*for(var i = 0;i < this.entityList.length;i++){
-                    this.ids[i] = this.entityList[i].id;
-                }*!/
-            } else {
-                this.ids = [];
-            }
-            console.log("ids: " + this.ids);
-        },*/
-        // 实现全选和反选
+        // 实现全选
         checkAll:function(){
             // 清空上一次的操作，所以要重新初始化
-            this.ids = [];
+            /*this.ids = [];
             this.entityList.forEach(function(entity,index){
                 entity.check = !entity.check;
                 // 如果你已经选择，
@@ -42,25 +30,16 @@ var app = new Vue({
                     // 就把选择的ID放入数组中。
                     app.ids.push(entity.id);
                 }
-            });
-        },
-        curCheck:function(){
-            var that = this;
-            //过滤check为true的 1 2 3 4 5 javascript  数组
-            //filter 把数组中满足条件的留下，不满足条件过滤掉。返回一个新的数组
-            var curTrueArray=this.ids.filter(function(item){
-                return item.check==true;
-            });
-
-            that.ids = [];
-            // 遍历所有选中的数组
-            curTrueArray.forEach(function(blog,index){
-                that.ids.push(blog.id);
-            });
-
-            //判断选中的状态与总长度比较  当选中的项与总长度相等时 自动 勾选 “全选”
-            // 不相等时 取消 全选
-            that.checked = (curTrueArray.length == that.ids.length);
+            });*/
+            if(!this.selectedFlag){
+                //选中
+                for (let i = 0; i < this.entityList.length; i++) {
+                    const entity = this.entityList[i];
+                    this.ids[i] = entity.id;
+                }
+            } else {
+                this.ids = [];
+            }
         },
         //查询方法
         searchList: function (curPage) {
@@ -72,6 +51,7 @@ var app = new Vue({
                 //设置列表
                 app.entityList = response.data.list;
                 app.ids = [];
+                app.selectedFlag = false;
             });
         },
         //保存 或 修改
@@ -122,8 +102,18 @@ var app = new Vue({
             }
         }
     },
+    //监听数据属性的变化
+    watch :{
+        ids: function (newValue, oldValue) {
+            if (this.ids.length != this.entityList.length) {
+                this.selectedFlag = false;
+            } else{
+                this.selectedFlag = true;
+            }
+        }
+    },
     //页面加载
-    created: function () {
+    created() {
         /*axios.get("../brand/findAll.do").then(function (response) {
             app.entityList = response.data;
         }).catch(function () {

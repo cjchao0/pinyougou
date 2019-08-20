@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/brand")
@@ -109,5 +110,10 @@ public class BrandController {
                                         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                         @RequestBody TbBrand tbBrand){
         return brandService.search(pageNum,pageSize,tbBrand);
+    }
+
+    @GetMapping("/selectOptionList")
+    public List<Map<String,Object>> selectOptionList(){
+        return brandService.selectOptionList();
     }
 }
