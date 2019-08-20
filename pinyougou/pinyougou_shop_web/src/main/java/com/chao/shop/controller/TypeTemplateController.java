@@ -7,12 +7,21 @@ import com.chao.vo.Result;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RequestMapping("/typeTemplate")
 @RestController
 public class TypeTemplateController {
 
     @Reference
     private TypeTemplateService typeTemplateService;
+
+    @GetMapping("/findSpecList")
+    public List<Map> findSpecList(Long id){
+        return typeTemplateService.findSpecList(id);
+    }
+
 
     /**
      * 新增
